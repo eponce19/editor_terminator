@@ -32,18 +32,29 @@ class EditorController < ApplicationController
     end
 
     if @errors.length < 1
-      reader = Nokogiri::XML::Reader(@html)
-      reader.each do |node|
+      page.at('body').children.each do |node|
         @xml_name = node.name
         @xml_attributes = node.attributes
-        @h1_attributes = node.attribute('class') == "col-md-12" ? 1:0
       end
     end
 
     #exist h1
     @h1_exist = page.css('h1').length
     @h1_content = page.css('h1').text == "Hola Mundo" ? 1:0
+    @h1_attributes = page.css('h1').attribute('class').value == "col-md-12" ? 1:0
 
+  end
+
+  def exist_element(element)
+    #return page.css(element.name).length > 0
+  end
+
+  def same_element(element)
+    #return page.css(element.name).text == element.value
+  end
+
+  def attribute_element(element, attribute)
+    #return page.css(element.name).attribute(attribute.name).value == attribute.value
   end
 
   def read
