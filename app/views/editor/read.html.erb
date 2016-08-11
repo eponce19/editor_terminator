@@ -1,0 +1,28 @@
+<div class="Instructions">
+  <h2>Upload the code for the exercise</h2>
+</div>
+<br>
+<body>
+  <%= form_tag check_path, method: :post, class: "navbar-form navbar-left search-form" do %>
+    <textarea id="editor" name="editor"></textarea>
+    <%= submit_tag 'Submit' %>
+  <% end %>
+
+  <br>
+  <button onclick="submit_html();">Run</button>
+  <p id="result"></p>
+</body>
+
+<script>
+  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    lineNumbers: true,
+    mode:  "xml"
+  });
+  function submit_html()
+    {
+      editor.save();
+      var code = document.getElementById("editor").value;
+      var data_url = code;
+      document.getElementById("result").textContent = data_url;
+    }
+</script>

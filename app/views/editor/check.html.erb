@@ -1,0 +1,29 @@
+<h2>Results</h2>
+
+<h3>Text</h3>
+<%= @html %>
+
+<br>
+
+<!-- <h3>W3 Validation</h3>
+<%# if @validator.valid? %>
+  No errors
+<%# else %>
+  <%# @validator.errors.each do |error|%>
+    <%# error %>
+    <br>
+  <%# end %>
+<%# end %> -->
+
+<b>Errors</b>
+<p>
+  Exists = <%= @h1_exist %> <br>
+  Correct Content = <%= @h1_content %> <br>
+  <%= @errors[0] %><br>
+  Correct Attributes = <%= @h1_attributes %> 
+</p>
+<br>
+<b>Attributes</b>
+<p>
+  <%= @xml_attributes %>
+</p>
