@@ -2,9 +2,7 @@
 
 <h3>Text</h3>
 <%= @html %>
-
-<br>
-
+<br><br>
 <!-- <h3>W3 Validation</h3>
 <%# if @validator.valid? %>
   No errors
@@ -14,15 +12,11 @@
     <br>
   <%# end %>
 <%# end %> -->
-
+<%=raw @elements %>
+<br><br>
 <b>Errors</b>
-<p>
-  Exists = <%= @h1_exist %> <br>
-  Correct Content = <%= @h1_content %> <br>
-  <%= @errors[0] %><br>
-  Correct Attributes = <%= @h1_attributes %>
-</p>
-<br>
+<%= @html_errors %>
+<br><br>
 <b>Attributes</b>
 <p>
   <%= @xml_name %>

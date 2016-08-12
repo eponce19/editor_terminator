@@ -1,5 +1,7 @@
 class EditorController < ApplicationController
   def index
+    exercise = "new"
+    @instructions = read_html_file(exercise)
     #code
   end
 
@@ -21,8 +23,8 @@ class EditorController < ApplicationController
     # @validator.validate_text(@html)
 
     #validate is correct the exercise
-    page = Nokogiri::HTML(@html)
-    xml = Nokogiri::XML(@html)
+    code = Nokogiri::HTML(@html)
+    #xml = Nokogiri::XML(@html)
     @errors = Array.new
     #errors
     begin
@@ -32,17 +34,40 @@ class EditorController < ApplicationController
     end
 
     if @errors.length < 1
-      page.at('body').children.each do |node|
+      code.at('body').children.each do |node|
         @xml_name = node.name
         @xml_attributes = node.attributes
       end
     end
 
+    name = "new"
+    exercise = "exercises/"+name+".html"
+    elements = get_elements(exercise)
+    @elements = print_elements(elements)
     #exist h1
-    @h1_exist = page.css('h1').length
-    @h1_content = page.css('h1').text == "Hola Mundo" ? 1:0
-    @h1_attributes = page.css('h1').attribute('class').value == "col-md-12" ? 1:0
+    @html_errors = Array.new
 
+    elements.each do |element|
+
+      if element.name == "text"
+        #@html_errors << element.name + " not exist" if code.at(text.value).text.strip.empty?
+         #@html_errors << element.name + " is not the same" if code.css("text").text == element.value
+      else
+        if code.css(element.name).length == 0
+          @html_errors << element.name + " not exist"
+        else
+        element.attribute_nodes.each do |element_attribute|
+          if !code.css(element.name).attribute(element_attribute.name).nil?
+            if code.css(element.name).attribute(element_attribute.name).value != element_attribute.value
+              @html_errors << element_attribute.name + " not is the same value " + element_attribute.value
+            end
+          else
+            @html_errors << element_attribute.name + " not exist"
+          end
+        end
+        end
+      end
+    end
   end
 
   def exist_element(element)
@@ -77,6 +102,9 @@ class EditorController < ApplicationController
     rescue Nokogiri::XML::SyntaxError => e
       @errors[0] = "Check your syntaxis"
     end
+
+    create_html_file(@html,"new")
+
     @@tags = Array.new
     reader = Nokogiri::HTML(@html)
     reader = remove_empty_text(reader)
@@ -93,6 +121,16 @@ class EditorController < ApplicationController
     end
   end
 
+  def get_elements(source)
+    @@tags = Array.new
+    reader = Nokogiri::HTML(File.open(source))
+    reader = remove_empty_text(reader)
+    reader.at('body').children.each do |child|
+      @@tags.push(child)
+      add_children(child) if child.children.any?
+    end
+    @@tags
+  end
 
   def add_children(parent)
     parent.children.each do |child|
@@ -131,6 +169,36 @@ class EditorController < ApplicationController
       text << "<hr>"
     end
     text
+  end
+
+  def create_html_file(html,name)
+    fileHtml = File.new("exercises/"+name+".html", "w+")
+    result = true
+    begin
+      fileHtml.puts html
+    p "File created"
+    rescue
+      result = false
+    ensure
+      fileHtml.close unless fileHtml.nil?
+    end
+    return result
+  end
+
+  def read_html_file(name)
+    fileHtml = File.open("exercises/"+name+".html", "r")
+    text = ""
+    begin
+      fileHtml.each_line do |line|
+        text << line
+      end
+      fileHtml.close
+    rescue
+      text = "error"
+    ensure
+      #fileHtml.close unless fileHtml.nil?
+    end
+    return text
   end
 
 end
