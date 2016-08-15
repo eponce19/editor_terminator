@@ -1,8 +1,8 @@
 class EditorController < ApplicationController
   def index
+    #change exercise name
     exercise = "new"
-    @instructions = read_html_file(exercise)
-    #code
+    @instructions = Html::ReadFile.call(exercise)
   end
 
   def check
@@ -40,18 +40,18 @@ class EditorController < ApplicationController
       end
     end
 
+    #change name of exercise
     name = "new"
-    exercise = "exercises/"+name+".html"
-    elements = get_elements(exercise)
-    @elements = print_elements(elements)
+    exercise = "exercises/" + name + ".html"
+    elements = Html::GetElements.call(exercise)
+    @elements = Html::PrintElements.call(elements)
+
     #exist h1
     @html_errors = Array.new
 
     elements.each do |element|
-
       if element.name == "text"
-        #@html_errors << element.name + " not exist" if code.at(text.value).text.strip.empty?
-         #@html_errors << element.name + " is not the same" if code.css("text").text == element.value
+        #code if element is text
       else
         if code.css(element.name).length == 0
           @html_errors << element.name + " not exist"
@@ -82,10 +82,6 @@ class EditorController < ApplicationController
     #return page.css(element.name).attribute(attribute.name).value == attribute.value
   end
 
-  def read
-    #code
-  end
-
   def show
 
   end
@@ -103,7 +99,9 @@ class EditorController < ApplicationController
       @errors[0] = "Check your syntaxis"
     end
 
-    create_html_file(@html,"new")
+    #change exercise name
+    exercise = "exercise"
+    Html::NewFile.call(@html,exercise)
 
     @@tags = Array.new
     reader = Nokogiri::HTML(@html)
@@ -121,16 +119,6 @@ class EditorController < ApplicationController
     end
   end
 
-  def get_elements(source)
-    @@tags = Array.new
-    reader = Nokogiri::HTML(File.open(source))
-    reader = remove_empty_text(reader)
-    reader.at('body').children.each do |child|
-      @@tags.push(child)
-      add_children(child) if child.children.any?
-    end
-    @@tags
-  end
 
   def add_children(parent)
     parent.children.each do |child|
@@ -158,47 +146,5 @@ class EditorController < ApplicationController
     reader
   end
 
-  def print_elements(reader)
-    text = ""
-    reader.each do |child|
-      text << "name = " + child.name + "<br>"
-      text << "content = " + child.text + "<br>" if child.text?
-      child.attribute_nodes.each do |child_attribute|
-         text << child.name + " attribute = " + child_attribute.name + " - " + child_attribute.value + "<br>"
-      end
-      text << "<hr>"
-    end
-    text
-  end
-
-  def create_html_file(html,name)
-    fileHtml = File.new("exercises/"+name+".html", "w+")
-    result = true
-    begin
-      fileHtml.puts html
-    p "File created"
-    rescue
-      result = false
-    ensure
-      fileHtml.close unless fileHtml.nil?
-    end
-    return result
-  end
-
-  def read_html_file(name)
-    fileHtml = File.open("exercises/"+name+".html", "r")
-    text = ""
-    begin
-      fileHtml.each_line do |line|
-        text << line
-      end
-      fileHtml.close
-    rescue
-      text = "error"
-    ensure
-      #fileHtml.close unless fileHtml.nil?
-    end
-    return text
-  end
 
 end
