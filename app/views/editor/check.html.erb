@@ -12,13 +12,11 @@
     <br>
   <%# end %>
 <%# end %> -->
-<%=raw @elements %>
-<br><br>
+<%#raw @elements %>
+
+<% if !@html_errors.empty? %>
 <b>Errors</b>
-<%= @html_errors %>
-<br><br>
-<b>Attributes</b>
-<p>
-  <%= @xml_name %>
-  <%= @xml_attributes %>
-</p>
+<%= @html_errors  %>
+<% else %>
+<%= "Challenge Accomplish"%>
+<% end %>

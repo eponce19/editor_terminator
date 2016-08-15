@@ -7,80 +7,27 @@ class EditorController < ApplicationController
 
   def check
     @html = params["editor"]
+    @html_errors = Array.new
+    result = Array.new
 
-    #validate if html follow w3, uncomment when check all the page
-      #"<!DOCTYPE html>
-      # <html>
-      #   <head>
-      #     <h1>asdasd</h1>
-      #     <title>asdasd</title>
-      #   </head>
-      #   <body>
-      #     <h1>hola</h1>
-      #   </body>
-      # </html>"
-    # @validator = Html5Validator::Validator.new
-    # @validator.validate_text(@html)
-
-    #validate is correct the exercise
-    code = Nokogiri::HTML(@html)
-    #xml = Nokogiri::XML(@html)
-    @errors = Array.new
-    #errors
-    begin
-      xml = Nokogiri::XML(@html) { |config| config.strict }
-    rescue Nokogiri::XML::SyntaxError => e
-      @errors[0] = "Check if you close your tags"
-    end
-
-    if @errors.length < 1
-      code.at('body').children.each do |node|
-        @xml_name = node.name
-        @xml_attributes = node.attributes
-      end
-    end
+    #validate syntasis
+    @errors = Html::ValidateSyntax.call(@html)
+    result << @errors[0]
 
     #change name of exercise
-    name = "new"
-    exercise = "exercises/" + name + ".html"
-    elements = Html::GetElements.call(exercise)
-    @elements = Html::PrintElements.call(elements)
+    exercise = "new"
 
-    #exist h1
-    @html_errors = Array.new
-
-    elements.each do |element|
-      if element.name == "text"
-        #code if element is text
-      else
-        if code.css(element.name).length == 0
-          @html_errors << element.name + " not exist"
-        else
-        element.attribute_nodes.each do |element_attribute|
-          if !code.css(element.name).attribute(element_attribute.name).nil?
-            if code.css(element.name).attribute(element_attribute.name).value != element_attribute.value
-              @html_errors << element_attribute.name + " not is the same value " + element_attribute.value
-            end
-          else
-            @html_errors << element_attribute.name + " not exist"
-          end
-        end
-        end
-      end
+    if @errors.empty?
+      result = Html::Match.call(@html, exercise)
     end
+
+    if result.any?
+      @html_errors = result
+    end
+
   end
 
-  def exist_element(element)
-    #return page.css(element.name).length > 0
-  end
 
-  def same_element(element)
-    #return page.css(element.name).text == element.value
-  end
-
-  def attribute_element(element, attribute)
-    #return page.css(element.name).attribute(attribute.name).value == attribute.value
-  end
 
   def show
 
@@ -118,6 +65,7 @@ class EditorController < ApplicationController
       puts "Check your code, some errors appear"
     end
   end
+
 
 
   def add_children(parent)
