@@ -2,13 +2,13 @@ class Html::NewFile
  include Service
 
  attr_reader :exercise, :code
- def initialize(code,exercise)
+ def initialize(code,source)
    @code = code
-   @exercise = exercise
+   @source = source
  end
 
  def call
-   fileHtml = File.new("exercises/" + @exercise + ".html", "w+")
+   fileHtml = File.new(@source, "w+")
    result = true
    begin
      fileHtml.puts @code

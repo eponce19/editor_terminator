@@ -5,13 +5,11 @@
 
 <br>
 <br>
-<b>Elements</b>
-<p>
-<%=raw @text %>
-</p>
 
-<b>Errors</b>
-<p>
-  <%= @errors[0] %><br>
-</p>
-<br>
+<% if !@html_errors.empty? %>
+  <b>Errors</b>
+  <%= @html_errors  %>
+<% else %>
+  <b>Elements</b>
+  <%=raw @elements %>
+<% end %>

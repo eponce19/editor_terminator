@@ -2,12 +2,12 @@ class Html::ReadFile
  include Service
 
  attr_reader :exercise
- def initialize(exercise)
-   @exercise = exercise
+ def initialize(source)
+   @source = source
  end
 
  def call
-   fileHtml = File.open("exercises/" + @exercise + ".html", "r")
+   fileHtml = File.open(@source, "r")
    text = ""
    begin
      fileHtml.each_line do |line|
