@@ -29,7 +29,8 @@ class Html::ValidateSyntax
      # @validator.validate_text(@html)
 
    rescue Nokogiri::XML::SyntaxError => e
-     errors[0] = "Check if you close your tags"
+     #errors[0] = "Check if you close your tags"
+     errors[0] = e
    end
 
    errors
