@@ -3,11 +3,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
-  resources :nokogiri
+  root 'editor#index'
   resources :editor
   post 'editor/check', as: 'check'
-  post 'editor/read', as: 'editor/read'
+  post 'editor/read', as: 'read'
   post 'editor/upload', as: 'upload'
 
   # Example of regular route:

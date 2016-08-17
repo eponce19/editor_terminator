@@ -1,9 +1,0 @@
-<h1>hola</h1>
-<% if @validator.valid? %>
-  No errors
-<% else %>
-  <% @validator.errors.each do |error|%>
-    <%= error %>
-    <br>
-  <% end %>
-<% end %>

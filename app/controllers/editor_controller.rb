@@ -1,9 +1,11 @@
 class EditorController < ApplicationController
+
   def index
     #change exercise name
-    exercise = "new"
+    exercise = "exercise"
     source = "exercises/" + exercise + ".html"
-    @instructions = Html::ReadFile.call(source)
+    ct = CodeTerminator::Html.new
+    @instructions = ct.read_file(source)
   end
 
   def check
@@ -12,15 +14,17 @@ class EditorController < ApplicationController
     result = Array.new
 
     #validate syntasis
-    errors = Html::ValidateSyntax.call(@html)
+    ct = CodeTerminator::Html.new
+    errors = ct.validate_syntax(@html)
     result << errors[0]
 
     #change name of exercise
-    exercise = "new"
+    exercise = "exercise"
 
     if errors.empty?
       source = "exercises/" + exercise + ".html"
-      result = Html::Match.call(@html, source)
+      #ct = CodeTerminator::Html.new
+      result = ct.match(source, @html)
     end
 
     if result.any?
@@ -38,16 +42,17 @@ class EditorController < ApplicationController
     @html = params["editor"]
     @html_errors = Array.new
     #validate syntasis
-    @html_errors = Html::ValidateSyntax.call(@html)
+    ct = CodeTerminator::Html.new
+    @html_errors = ct.validate_syntax(@html)
 
     #change exercise name
     exercise = "exercise"
     source = "exercises/" + exercise + ".html"
-    Html::NewFile.call(@html,source)
+    ct.new_file(source,@html)
 
     #get elements of the html source
-    elements = Html::GetElements.call(source)
-    @elements = Html::PrintElements.call(elements)
+    elements = ct.get_elements(source)
+    @elements = ct.print_elements(elements)
 
   end
 
