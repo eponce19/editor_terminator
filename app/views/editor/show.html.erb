@@ -1,23 +1,68 @@
-<div class="Instructions">
-  <h2>Upload the code for the exercise</h2>
-</div>
+<style media="screen">
+
+#wrapper {
+margin-right: 200px;
+}
+#html_div {
+margin-left: 50px;
+float: left;
+width: 50%;
+}
+#css_div {
+float: right;
+width: 50%;
+margin-right: -150px;
+}
+#cleared {
+clear: both;
+}
+
+</style>
+
+
 <br>
 <body>
   <%= form_tag upload_path, method: :post, class: "navbar-form navbar-left search-form" do %>
-    <textarea id="editor" name="editor"></textarea>
-    <%= submit_tag 'Submit' %>
+
+  <div id="wrapper">
+  <div id="html_div">
+    <h2>Html editor</h2>
+    <div class="Instructions">
+      <h4>Upload the HTML code for the exercise</h4>
+    </div>
+    <textarea id="html_editor" name="html_editor" ></textarea>
+  </div>
+  <div id="css_div">
+    <h2>Css editor</h2>
+    <div class="Instructions">
+      <h4>Upload the CSS code for the exercise</h4>
+    </div>
+    <textarea id="css_editor" name="css_editor"></textarea>
+  </div>
+  <div id="cleared"></div>
+</div>
+
+
+    <center>
+      <%= submit_tag 'Submit' %>
+      <br>
+      <button onclick="submit_html();">Run</button>
+    </center>
+
   <% end %>
 
-  <br>
-  <button onclick="submit_html();">Run</button>
-  <p id="result"></p>
+
 </body>
 
 <script>
-  var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
-    lineNumbers: true,
-    mode:  "xml"
-  });
+var html_editor = CodeMirror.fromTextArea(document.getElementById("html_editor"), {
+  lineNumbers: true,
+  mode:  "xml"
+});
+var css_editor = CodeMirror.fromTextArea(document.getElementById("css_editor"), {
+  lineNumbers: true,
+  mode:  "xml"
+});
   function submit_html()
     {
       editor.save();

@@ -13,10 +13,12 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-#gem  'html5_validator'
-#gem  'nokogiri'
+gem  'html5_validator'
+gem  'nokogiri'
+gem  'crass'
+gem  'css_parser'
 gem  'codemirror-rails'
-gem  'code_terminator'
+gem  'code_terminator', '~> 0.2.2'
 
 
 # Use jquery as the JavaScript library

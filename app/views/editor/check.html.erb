@@ -1,6 +1,6 @@
 <h2>Results</h2>
 
-<h3>Text</h3>
+<h3>html Text</h3>
 <%= @html %>
 <br><br>
 <!-- <h3>W3 Validation</h3>
@@ -18,5 +18,17 @@
   <b>Errors</b>
   <%= @html_errors  %>
 <% else %>
-  <%= "Challenge Accomplish"%>
+  <%= "html Challenge Accomplish"%>
+<% end %>
+
+
+<h3>css Text</h3>
+<%= @css %>
+<br><br>
+
+<% if !@css_errors.empty? %>
+  <b>Errors</b>
+  <%= @css_errors  %>
+<% else %>
+  <%= "css Challenge Accomplish"%>
 <% end %>

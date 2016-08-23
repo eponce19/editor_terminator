@@ -1,34 +1,65 @@
 class EditorController < ApplicationController
 
   def index
+    #HTML
     #change exercise name
     exercise = "exercise"
     source = "exercises/" + exercise + ".html"
     ct = CodeTerminator::Html.new
-    @instructions = ct.read_file(source)
+    @html_instructions = ct.read_file(source)
+
+    #CSS
+    #change exercise name
+    exercise = "exercise"
+    source = "exercises/" + exercise + ".css"
+    ct = CodeTerminator::Css.new
+    @css_instructions = ct.read_file(source)
+
   end
 
   def check
-    @html = params["editor"]
+    #HTML
+    @html = params["html_editor"]
     @html_errors = Array.new
-    result = Array.new
+    html_result = Array.new
 
     #validate syntasis
-    ct = CodeTerminator::Html.new
-    errors = ct.validate_syntax(@html)
-    result << errors[0]
+    html_ct = CodeTerminator::Html.new
+    html_errors = html_ct.validate_syntax(@html)
+    html_result << html_errors[0]
 
     #change name of exercise
     exercise = "exercise"
-
-    if errors.empty?
+    if html_errors.empty?
       source = "exercises/" + exercise + ".html"
       #ct = CodeTerminator::Html.new
-      result = ct.match(source, @html)
+      html_result = html_ct.match(source, @html)
+    end
+    if html_result.any?
+      @html_errors = html_result
     end
 
-    if result.any?
-      @html_errors = result
+
+    #CSS
+    @css = params["css_editor"]
+    @css_errors = Array.new
+    css_result = Array.new
+
+    #validate syntasis
+    css_ct = CodeTerminator::Css.new
+    css_valid = css_ct.validate_syntax(@css)
+    p "valid " + css_valid.to_s
+    #result << errors[0]
+
+    #change name of exercise
+    exercise = "exercise"
+    if css_valid
+      source = "exercises/" + exercise + ".css"
+      #ct = CodeTerminator::Html.new
+      css_result = css_ct.match(source, @css)
+    end
+    if css_result.any?
+      @css_errors = css_result
     end
 
   end
@@ -39,20 +70,37 @@ class EditorController < ApplicationController
   end
 
   def upload
-    @html = params["editor"]
+    #HTML
+    @html = params["html_editor"]
     @html_errors = Array.new
     #validate syntasis
-    ct = CodeTerminator::Html.new
-    @html_errors = ct.validate_syntax(@html)
+    html_ct = CodeTerminator::Html.new
+    @html_errors = html_ct.validate_syntax(@html)
 
     #change exercise name
     exercise = "exercise"
     source = "exercises/" + exercise + ".html"
-    ct.new_file(source,@html)
+    html_ct.new_file(source,@html)
 
     #get elements of the html source
-    elements = ct.get_elements(source)
-    @elements = ct.print_elements(elements)
+    html_elements = html_ct.get_elements(source)
+    @html_elements = html_ct.print_elements(html_elements)
+
+    #CSS
+    @css = params["css_editor"]
+    #@css_errors = Array.new
+    #validate syntasis
+    css_ct = CodeTerminator::Css.new
+    @css_errors = css_ct.validate_syntax(@css)
+
+    #change exercise name
+    exercise = "exercise"
+    source = "exercises/" + exercise + ".css"
+    css_ct.new_file(source,@css)
+
+    #get elements of the html source
+    css_elements = css_ct.get_elements(source)
+    @css_elements = css_ct.print_elements(css_elements)
 
   end
 
