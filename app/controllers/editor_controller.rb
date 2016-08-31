@@ -47,13 +47,13 @@ class EditorController < ApplicationController
 
     #validate syntasis
     css_ct = CodeTerminator::Css.new
-    css_valid = css_ct.validate_syntax(@css)
-    p "valid " + css_valid.to_s
-    #result << errors[0]
+    css_errors = css_ct.validate_syntax(@css)
+    #p "valid " + css_valid.to_s
+    css_result << css_errors[0]
 
     #change name of exercise
     exercise = "exercise"
-    if css_valid
+    if css_errors.empty?
       source = "exercises/" + exercise + ".css"
       #ct = CodeTerminator::Html.new
       css_result = css_ct.match(source, @css)
@@ -84,7 +84,7 @@ class EditorController < ApplicationController
 
     #get elements of the html source
     html_elements = html_ct.get_elements(source)
-    @html_elements = html_ct.print_elements(html_elements)
+    @html_elements = nil#html_ct.print_elements(source)
 
     #CSS
     @css = params["css_editor"]
@@ -100,7 +100,7 @@ class EditorController < ApplicationController
 
     #get elements of the html source
     css_elements = css_ct.get_elements(source)
-    @css_elements = css_ct.print_elements(css_elements)
+    @css_elements = nil#css_ct.print_elements(source)
 
   end
 
