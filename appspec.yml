@@ -1,3 +1,5 @@
+version: 0.0
+os: linux
 files:
-  - source: /code-terminator
-    destination: /www/code-terminator-app/
+  - source: source
+    destination: /webapps/code-terminator-app/
