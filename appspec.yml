@@ -1,0 +1,3 @@
+files:
+  - source: /code-terminator
+    destination: /www/code-terminator-app/

@@ -19,6 +19,8 @@ gem  'crass'
 gem  'css_parser'
 gem  'codemirror-rails'
 gem  'code_terminator', '~> 0.3.2'
+gem  'jasmine-rails'
+
 
 
 # Use jquery as the JavaScript library
