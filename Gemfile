@@ -13,14 +13,10 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
-gem  'html5_validator'
-gem  'nokogiri'
-gem  'crass'
-gem  'css_parser'
 gem  'codemirror-rails'
-gem  'code_terminator', '~> 0.3.2'
+gem  'code_terminator', '~> 0.4.2'
 gem  'jasmine-rails'
-gem 'puma'
+gem  'puma'
 
 
 
