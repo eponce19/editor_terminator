@@ -28,6 +28,12 @@ class EditorController < ApplicationController
     html_errors = html_ct.validate_syntax(@html)
     html_result << html_errors[0]
 
+    p "source elements"
+    exercise = "exercise"
+    source = "exercises/" + exercise + ".html"
+    p html_ct.get_elements(source)
+    # p "html elements"
+    # p html_ct.get_elements(@html)
     #change name of exercise
     exercise = "exercise"
     if html_errors.empty?
@@ -44,11 +50,12 @@ class EditorController < ApplicationController
     @css = params["css_editor"]
     @css_errors = Array.new
     css_result = Array.new
+    css_errors = Array.new
 
     #validate syntasis
     css_ct = CodeTerminator::Css.new
     css_errors = css_ct.validate_syntax(@css)
-    #p "valid " + css_valid.to_s
+    # p "valid " + css_valid.to_s
     css_result << css_errors[0]
 
     #change name of exercise
