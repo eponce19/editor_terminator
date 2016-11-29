@@ -14,7 +14,7 @@ gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 gem  'codemirror-rails'
-gem  'code_terminator', '~> 0.4.10'
+gem  'code_terminator', '~> 0.4.12'
 gem  'jasmine-rails'
 gem  'puma'
 gem  'crass', '~> 1.0.0'
