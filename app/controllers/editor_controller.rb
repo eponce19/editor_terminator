@@ -25,8 +25,8 @@ class EditorController < ApplicationController
 
     #validate syntasis
     html_ct = CodeTerminator::Html.new
-    html_errors = html_ct.validate_syntax(@html)
-    html_result << html_errors[0]
+    # html_errors = html_ct.validate_syntax(@html)
+    # html_result << html_errors[0]
 
     p "source elements"
     exercise = "exercise"
@@ -36,13 +36,13 @@ class EditorController < ApplicationController
     # p html_ct.get_elements(@html)
     #change name of exercise
     exercise = "exercise"
-    if html_errors.empty?
+    if @html_errors.empty?
       source = "exercises/" + exercise + ".html"
       #ct = CodeTerminator::Html.new
       html_result = html_ct.match(source, @html)
     end
     if html_result.any?
-      @html_errors = html_result
+       @html_errors = html_result
     end
 
 
@@ -82,7 +82,7 @@ class EditorController < ApplicationController
     @html_errors = Array.new
     #validate syntasis
     html_ct = CodeTerminator::Html.new
-    @html_errors = html_ct.validate_syntax(@html)
+    # @html_errors = html_ct.validate_syntax(@html)
 
     #change exercise name
     exercise = "exercise"
